@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 2020_07_25_193437) do
     t.index ["stream", "position"], name: "index_event_store_events_in_streams_on_stream_and_position", unique: true
   end
 
-  create_table "homes", force: :cascade do |t|
+  create_table "homes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
