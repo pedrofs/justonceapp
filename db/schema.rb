@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 2020_07_25_194745) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "category_products", force: :cascade do |t|
+  create_table "category_products", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "category_id"
     t.uuid "product_id"
     t.uuid "home_id"
@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 2020_07_25_194745) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "products", force: :cascade do |t|
+  create_table "products", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.uuid "home_id"
     t.datetime "created_at", precision: 6, null: false

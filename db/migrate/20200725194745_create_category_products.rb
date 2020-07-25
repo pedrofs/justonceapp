@@ -1,6 +1,6 @@
 class CreateCategoryProducts < ActiveRecord::Migration[6.0]
   def change
-    create_table :category_products do |t|
+    create_table :category_products, id: :uuid do |t|
       t.uuid :category_id
       t.uuid :product_id
       t.uuid :home_id
