@@ -4,8 +4,7 @@ module ProductManagement
 
     acts_as_tenant :home
 
-    has_many :category_products, class_name: 'ProductManagement::CategoryProduct'
-    has_many :categories, through: :category_products, class_name: 'ProductManagement::Category'
+    belongs_to :category, class_name: 'ProductManagement::Category'
 
     validates :name, presence: true
   end
