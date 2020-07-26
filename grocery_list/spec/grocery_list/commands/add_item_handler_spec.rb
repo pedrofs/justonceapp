@@ -32,7 +32,5 @@ describe GroceryList::Commands::AddItemHandler do
 end
 
 class FakeCommandHandler
-  def with_aggregate(klass, aggregate_id)
-    yield(klass.new(aggregate_id))
-  end
+  def with_aggregate(klass, aggregate_id); end
 end
