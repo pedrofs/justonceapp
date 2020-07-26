@@ -13,8 +13,8 @@ describe GroceryList::List do
   end
 
   describe '.add_item' do
-    it 'publishes ItemAddedToList' do
-      expect(list.add_item(SecureRandom.uuid).first).to be_a(GroceryList::Events::ItemAddedToList)
+    it 'publishes ItemAdded' do
+      expect(list.add_item(SecureRandom.uuid).first).to be_a(GroceryList::Events::ItemAdded)
     end
 
     it 'has published event data with product_id' do
@@ -29,6 +29,39 @@ describe GroceryList::List do
         list.add_item(product_id)
 
         expect { list.add_item(product_id) }.to raise_error(GroceryList::List::ProductAlreadyOnList)
+      end
+    end
+  end
+
+  describe '.remove_item' do
+    it 'publishes ItemRemoved' do
+      product_id = SecureRandom.uuid
+      list.add_item(product_id)
+      expect(list.remove_item(product_id).first).to be_a(GroceryList::Events::ItemRemoved)
+    end
+
+    it 'has published event data with product_id' do
+      product_id = SecureRandom.uuid
+      list.add_item(product_id)
+
+      expect(list.remove_item(product_id).first.data).to eq({ product_id: product_id })
+    end
+
+    context 'when product_id is not in the list' do
+      it 'raises ProductNotOnList' do
+        expect { list.remove_item(SecureRandom.uuid) }.to(
+          raise_error(GroceryList::List::ProductNotOnList)
+        )
+      end
+    end
+
+    context 'when adding a product after removing it' do
+      it 'publishes ItemAdded' do
+        product_id = SecureRandom.uuid
+        list.add_item(product_id)
+        list.remove_item(product_id)
+
+        expect(list.add_item(product_id).first).to be_a(GroceryList::Events::ItemAdded)
       end
     end
   end
@@ -81,7 +114,7 @@ describe GroceryList::List do
         product_id = SecureRandom.uuid
         list.add_item(product_id)
         list.clear
-        expect(list.add_item(product_id).first).to be_a(GroceryList::Events::ItemAddedToList)
+        expect(list.add_item(product_id).first).to be_a(GroceryList::Events::ItemAdded)
       end
     end
   end

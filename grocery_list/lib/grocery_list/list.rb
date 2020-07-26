@@ -14,15 +14,19 @@ module GroceryList
     end
 
     def add_item(product_id)
-      if items.include?(Item.new(product_id))
-        raise ProductAlreadyOnList.new, 'Product already on list'
-      end
+      assert_product_not_on_list!(product_id)
 
-      apply(Events::ItemAddedToList.new(data: { product_id: product_id }))
+      apply(Events::ItemAdded.new(data: { product_id: product_id }))
+    end
+
+    def remove_item(product_id)
+      assert_product_on_list!(product_id)
+
+      apply(Events::ItemRemoved.new(data: { product_id: product_id }))
     end
 
     def buy_item(product_id)
-      raise ProductNotOnList.new, 'Product not on list' unless items.include?(Item.new(product_id))
+      assert_product_on_list!(product_id)
 
       apply(Events::ItemBought.new(data: { product_id: product_id }))
     end
@@ -31,8 +35,12 @@ module GroceryList
       apply(Events::ListCleared.new(data: { list_id: id }))
     end
 
-    on Events::ItemAddedToList do |event|
+    on Events::ItemAdded do |event|
       items << Item.new(event.data[:product_id])
+    end
+
+    on Events::ItemRemoved do |event|
+      items.delete(Item.new(event.data[:product_id]))
     end
 
     on Events::ItemBought do |event|
@@ -48,5 +56,17 @@ module GroceryList
     private
 
     attr_reader :id, :state, :items
+
+    def assert_product_on_list!(product_id)
+      raise ProductNotOnList.new, 'Product not on list' unless item_on_list?(product_id)
+    end
+
+    def assert_product_not_on_list!(product_id)
+      raise ProductAlreadyOnList.new, 'Product already on list' if item_on_list?(product_id)
+    end
+
+    def item_on_list?(product_id)
+      items.include?(Item.new(product_id))
+    end
   end
 end
