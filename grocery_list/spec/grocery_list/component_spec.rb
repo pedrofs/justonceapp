@@ -1,13 +1,13 @@
 describe GroceryList::Component do
   describe 'initialize' do
     it 'returns a GroceryList::Component' do
-      expect(described_class.new(Object.new, Object.new)).to be_a(described_class)
+      expect(described_class.new(Object.new, Object.new, Object.new)).to be_a(described_class)
     end
   end
 
   describe '.boot' do
     context 'with a command bus' do
-      subject(:boot) { described_class.new(Object.new, command_bus).boot }
+      subject(:boot) { described_class.new(Object.new, command_bus, Object.new).boot }
 
       let(:command_bus) { instance_double('command bus') }
 

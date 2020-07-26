@@ -31,6 +31,9 @@ Metrics/BlockLength:
 RSpec/NestedGroups:
   Enabled: false
 
+RSpec/AnyInstance:
+  Enabled: false
+
 Style/ExponentialNotation:
   Enabled: false
 
