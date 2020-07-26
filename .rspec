@@ -1,1 +1,1 @@
---require spec_helper --pattern spec/**/*_spec.rb --pattern grocery_list/**/*_spec.rb
+--require spec_helper

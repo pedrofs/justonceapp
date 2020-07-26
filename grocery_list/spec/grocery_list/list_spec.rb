@@ -14,7 +14,7 @@ describe GroceryList::List do
 
   describe '.add_item' do
     it 'publishes ItemAddedToList' do
-      expect(list.add_item(SecureRandom.uuid).first).to be_a(GroceryList::ItemAddedToList)
+      expect(list.add_item(SecureRandom.uuid).first).to be_a(GroceryList::Events::ItemAddedToList)
     end
 
     it 'has published event data with product_id' do
@@ -38,7 +38,7 @@ describe GroceryList::List do
       product_id = SecureRandom.uuid
       list.add_item(product_id)
 
-      expect(list.buy_item(product_id).first).to be_a(GroceryList::ItemBought)
+      expect(list.buy_item(product_id).first).to be_a(GroceryList::Events::ItemBought)
     end
 
     it 'has published event data with product_id' do
@@ -69,7 +69,7 @@ describe GroceryList::List do
 
   describe '.clear' do
     it 'publishes ListCleared' do
-      expect(list.clear.first).to be_a(GroceryList::ListCleared)
+      expect(list.clear.first).to be_a(GroceryList::Events::ListCleared)
     end
 
     it 'has published event data with list_id' do
@@ -81,7 +81,7 @@ describe GroceryList::List do
         product_id = SecureRandom.uuid
         list.add_item(product_id)
         list.clear
-        expect(list.add_item(product_id).first).to be_a(GroceryList::ItemAddedToList)
+        expect(list.add_item(product_id).first).to be_a(GroceryList::Events::ItemAddedToList)
       end
     end
   end

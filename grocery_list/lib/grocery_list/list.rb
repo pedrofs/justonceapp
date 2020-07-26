@@ -18,30 +18,30 @@ module GroceryList
         raise ProductAlreadyOnList.new, 'Product already on list'
       end
 
-      apply(ItemAddedToList.new(data: { product_id: product_id }))
+      apply(Events::ItemAddedToList.new(data: { product_id: product_id }))
     end
 
     def buy_item(product_id)
       raise ProductNotOnList.new, 'Product not on list' unless items.include?(Item.new(product_id))
 
-      apply(ItemBought.new(data: { product_id: product_id }))
+      apply(Events::ItemBought.new(data: { product_id: product_id }))
     end
 
     def clear
-      apply(ListCleared.new(data: { list_id: id }))
+      apply(Events::ListCleared.new(data: { list_id: id }))
     end
 
-    on ItemAddedToList do |event|
+    on Events::ItemAddedToList do |event|
       items << Item.new(event.data[:product_id])
     end
 
-    on ItemBought do |event|
+    on Events::ItemBought do |event|
       items.delete(Item.new(event.data[:product_id]))
 
       items << Item.new(event.data[:product_id], :bought)
     end
 
-    on ListCleared do |_event|
+    on Events::ListCleared do |_event|
       items.clear
     end
 
