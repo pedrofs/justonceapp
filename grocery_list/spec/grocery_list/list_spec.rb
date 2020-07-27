@@ -20,7 +20,9 @@ describe GroceryList::List do
     it 'has published event data with product_id' do
       product_id = SecureRandom.uuid
 
-      expect(list.add_item(product_id).first.data).to eq({ product_id: product_id })
+      expect(list.add_item(product_id).first.data).to(
+        eq({ list_id: list_id, product_id: product_id })
+      )
     end
 
     context 'when product_id is already in the list' do
@@ -44,7 +46,9 @@ describe GroceryList::List do
       product_id = SecureRandom.uuid
       list.add_item(product_id)
 
-      expect(list.remove_item(product_id).first.data).to eq({ product_id: product_id })
+      expect(list.remove_item(product_id).first.data).to(
+        eq({ list_id: list_id, product_id: product_id })
+      )
     end
 
     context 'when product_id is not in the list' do
@@ -78,7 +82,9 @@ describe GroceryList::List do
       product_id = SecureRandom.uuid
       list.add_item(product_id)
 
-      expect(list.buy_item(product_id).first.data).to eq({ product_id: product_id })
+      expect(list.buy_item(product_id).first.data).to(
+        eq({ list_id: list_id, product_id: product_id })
+      )
     end
 
     context 'when item is not in the list' do

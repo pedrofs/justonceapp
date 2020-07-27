@@ -4,6 +4,7 @@ describe GroceryList::Commands::AddItemHandler do
 
     let(:command) { OpenStruct.new(aggregate_id: SecureRandom.uuid, product_id: SecureRandom.uuid) }
     let(:list) { GroceryList::List.new(command.aggregate_id) }
+    let(:event_data) { { list_id: command.aggregate_id, product_id: command.product_id } }
 
     it 'calls .with_aggregate from command handler' do
       expect_any_instance_of(FakeCommandHandler).to(
@@ -23,7 +24,7 @@ describe GroceryList::Commands::AddItemHandler do
 
     it 'has the right event data' do
       allow_any_instance_of(FakeCommandHandler).to receive(:with_aggregate) do |&block|
-        expect(block.call(list).last.data).to(eq({ product_id: command.product_id }))
+        expect(block.call(list).last.data).to eq(event_data)
       end
 
       add_item_handler

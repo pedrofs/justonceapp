@@ -16,19 +16,19 @@ module GroceryList
     def add_item(product_id)
       assert_product_not_on_list!(product_id)
 
-      apply(Events::ItemAdded.new(data: { product_id: product_id }))
+      apply(Events::ItemAdded.new(data: { list_id: id, product_id: product_id }))
     end
 
     def remove_item(product_id)
       assert_product_on_list!(product_id)
 
-      apply(Events::ItemRemoved.new(data: { product_id: product_id }))
+      apply(Events::ItemRemoved.new(data: { list_id: id, product_id: product_id }))
     end
 
     def buy_item(product_id)
       assert_product_on_list!(product_id)
 
-      apply(Events::ItemBought.new(data: { product_id: product_id }))
+      apply(Events::ItemBought.new(data: { list_id: id, product_id: product_id }))
     end
 
     def clear
