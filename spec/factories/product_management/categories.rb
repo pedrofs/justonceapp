@@ -1,6 +1,5 @@
 FactoryBot.define do
-  factory :category, class: 'OrderManagement::Category' do
+  factory :category, class: 'ProductManagement::Category' do
     name { 'MyString' }
-    home_id { '' }
   end
 end
