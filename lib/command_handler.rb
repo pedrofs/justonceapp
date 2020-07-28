@@ -1,4 +1,4 @@
-module CommandHandler
+class CommandHandler
   def with_aggregate(aggregate_class, aggregate_id, &block)
     aggregate = aggregate_class.new(aggregate_id)
     stream = stream_name(aggregate_class, aggregate_id)

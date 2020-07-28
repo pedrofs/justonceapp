@@ -18,6 +18,10 @@ class ApplicationController < ActionController::Base
     Rails.configuration.event_store
   end
 
+  def command_bus
+    Rails.configuration.command_bus
+  end
+
   def access_denied
     redirect_to '/401.html'
   end

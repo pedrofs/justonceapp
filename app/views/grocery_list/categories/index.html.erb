@@ -1,0 +1,7 @@
+<%= link_to 'Back', grocery_list_list_path %>
+<h1>Select the item category</h1>
+<% @categories.each do |category| %>
+  <div>
+    <%= link_to category.name, grocery_list_category_products_path(category) %>
+  </div>
+<% end %>

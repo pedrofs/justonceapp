@@ -1,0 +1,28 @@
+<h1>Items on your grocery list</h1>
+
+<div>
+  <%= link_to 'Clear list', clear_list_grocery_list_list_path, method: :post %>
+</div>
+
+<br />
+
+<%= link_to 'Add item', grocery_list_categories_path %>
+
+<ul>
+  <% @items.each do |item| %>
+    <li>
+      <%= item.product_name %>
+      (<%= item.bought_at.presence || 'pending' %>)
+      <%= link_to 'Buy',
+                  buy_item_grocery_list_list_path(product_id: item.product_id),
+                  method: :post %>
+      <%= link_to 'Remove',
+                  remove_item_grocery_list_list_path(product_id: item.product_id),
+                  method: :post %>
+    </li>
+  <% end %>
+</ul>
+
+<% if @items.empty? %>
+  The list is empty
+<% end %>

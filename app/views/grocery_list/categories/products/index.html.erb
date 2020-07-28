@@ -1,0 +1,12 @@
+<%= link_to 'Back', grocery_list_categories_path %>
+<h1><%= @category.name %> items</h1>
+<table>
+  <tbody>
+    <% @products.each do |product| %>
+      <tr>
+        <td><%= product.name %></td>
+        <td><%= link_to 'Add to list', add_item_grocery_list_list_path(product_id: product.id), method: :post %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
