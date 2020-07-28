@@ -2,10 +2,10 @@ module GroceryList
   class List
     include AggregateRoot
 
-    ListAlreadyBought = Class.new(StandardError)
-    ProductAlreadyOnList = Class.new(StandardError)
-    ProductNotOnList = Class.new(StandardError)
-    ProductAlreadyBought = Class.new(StandardError)
+    ListAlreadyBought = Class.new(Error)
+    ProductAlreadyOnList = Class.new(Error)
+    ProductNotOnList = Class.new(Error)
+    ProductAlreadyBought = Class.new(Error)
 
     delegate :empty?, to: :items
 

@@ -1,4 +1,6 @@
 module GroceryList
+  Error = Class.new(StandardError)
+
   class Component
     def initialize(event_store, command_bus, command_handler)
       @event_store = event_store
