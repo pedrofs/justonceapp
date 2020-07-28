@@ -5,6 +5,7 @@ module GroceryList
     ListAlreadyBought = Class.new(StandardError)
     ProductAlreadyOnList = Class.new(StandardError)
     ProductNotOnList = Class.new(StandardError)
+    ProductAlreadyBought = Class.new(StandardError)
 
     delegate :empty?, to: :items
 
@@ -27,6 +28,7 @@ module GroceryList
 
     def buy_item(product_id)
       assert_product_on_list!(product_id)
+      assert_product_pending!(product_id)
 
       apply(Events::ItemBought.new(data: { list_id: id, product_id: product_id }))
     end
@@ -65,8 +67,16 @@ module GroceryList
       raise ProductAlreadyOnList.new, 'Product already on list' if item_on_list?(product_id)
     end
 
+    def assert_product_pending!(product_id)
+      raise ProductAlreadyBought.new, 'Product already bought' if find_item(product_id)&.bought?
+    end
+
     def item_on_list?(product_id)
       items.include?(Item.new(product_id))
+    end
+
+    def find_item(product_id)
+      items.find { |i| i.product_id == product_id }
     end
   end
 end

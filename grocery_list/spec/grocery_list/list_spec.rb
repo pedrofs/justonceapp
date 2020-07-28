@@ -104,6 +104,16 @@ describe GroceryList::List do
         expect { list.add_item(product_id) }.to raise_error(GroceryList::List::ProductAlreadyOnList)
       end
     end
+
+    context 'when buying a product that was previously bought' do
+      it 'raises ProductAlreadyBought' do
+        product_id = SecureRandom.uuid
+        list.add_item(product_id)
+        list.buy_item(product_id)
+
+        expect { list.buy_item(product_id) }.to raise_error(GroceryList::List::ProductAlreadyBought)
+      end
+    end
   end
 
   describe '.clear' do
