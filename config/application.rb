@@ -21,6 +21,7 @@ module Justonceapp
   class Application < Rails::Application
     config.load_defaults 6.0
 
+    config.paths.add 'lib', eager_load: true
     config.paths.add 'grocery_list/lib', eager_load: true
   end
 end
