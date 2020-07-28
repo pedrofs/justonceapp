@@ -1,24 +1,34 @@
-# README
+# JustOnce - The ultimate grocery list
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+You'll never need to get back to the grocery for buying that cleansing product or your kid milk because you forgot it.
 
-Things you may want to cover:
+## About the app
 
-* Ruby version
+This is a rails application written to improve CQRS and Event Sourcing skills.
 
-* System dependencies
+It is powered by [Rails Event Store](https://railseventstore.org/) to implement the Event Sourcing.
 
-* Configuration
+Besides a regular rails application, you'll find `app/read_models` that implements the read part of CQRS and you'll also find the `grocery_list/`, used to implemented the write side of CQRS.
 
-* Database creation
+## Setup
 
-* Database initialization
+Standard rails setup with postgres.
 
-* How to run the test suite
+```sh
+$ git clone git@github.com:pedrofs/justonceapp.git
+$ cd justonceapp
+$ yarn install
+$ bundler
+$ rake db:setup
+$ foreman start
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+## Running specs
 
-* Deployment instructions
+We also have specs outside of `spec/` folders. For running all specs use `--pattern`.
 
-* ...
+```sh
+$ SIMPLE_COV=true bundle exec rspec  --pattern spec/**/*_spec.rb --pattern grocery_list/**/*_spec.rb
+```
+
+The simple cov option generates html coverage report, without it'll generate the report using lcov format.
