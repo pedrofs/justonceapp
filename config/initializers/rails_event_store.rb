@@ -12,16 +12,17 @@ Rails.configuration.to_prepare do
     config.default_event_store = Rails.configuration.event_store
   end
 
-  # Subscribe event handlers below
-  # Rails.configuration.event_store.tap do |store|
-  #   store.subscribe(InvoiceReadModel.new, to: [InvoicePrinted])
-  #   store.subscribe(->(event) { SendOrderConfirmation.new.call(event) }, to: [OrderSubmitted])
-  #   store.subscribe_to_all_events(->(event) { Rails.logger.info(event.type) })
-  # end
+  GroceryList::Component.new(Rails.configuration.event_store,
+                             Rails.configuration.command_bus,
+                             CommandHandler.new)
+                        .boot
 
-  # Register command handlers below
-  # Rails.configuration.command_bus.tap do |bus|
-  #   bus.register(PrintInvoice, Invoicing::OnPrint.new)
-  #   bus.register(SubmitOrder,  ->(cmd) { Ordering::OnSubmitOrder.new.call(cmd) })
-  # end
+  Rails.configuration.event_store.tap do |store|
+    store.subscribe(GroceryList::ReadModel.new.method(:process_event), to: [
+      GroceryList::Events::ItemAdded,
+      GroceryList::Events::ItemRemoved,
+      GroceryList::Events::ItemBought,
+      GroceryList::Events::ListCleared
+    ])
+  end
 end
