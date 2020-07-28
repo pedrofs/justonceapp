@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  root 'grocery_list/list#show'
+
   namespace :grocery_list do
     resource :list, controller: :list, only: [:show] do
       post :add_item, on: :member, as: :add_item
