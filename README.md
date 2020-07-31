@@ -8,7 +8,7 @@ This is a rails application written to improve CQRS and Event Sourcing skills.
 
 It is powered by [Rails Event Store](https://railseventstore.org/) to implement the Event Sourcing.
 
-Besides a regular rails application, you'll find `app/read_models` that implements the read part of CQRS and you'll also find the `grocery_list/`, used to implemented the write side of CQRS.
+Besides a regular rails application, you'll find `app/read_models` that implements the read part of CQRS and you'll also find the `grocery_list/`, used to implement the write side of CQRS.
 
 ## Setup
 
@@ -20,7 +20,7 @@ $ cd justonceapp
 $ yarn install
 $ bundler
 $ rake db:setup
-$ foreman start
+$ rails s
 ```
 
 ## Running specs
